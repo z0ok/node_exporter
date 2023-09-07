@@ -4,6 +4,9 @@
 ### IF you want to add more params to node_exporter executable - edit node_exporter.service file
 USER="node_exporter"
 TARGET_PORT="9100"
+### Set to true, if you want to delete config and script after execution
+### Do not set true, if you unpacked /opt/node_exporter
+POST_CLEAN=false
 
 if [ "$EUID" -ne 0 ]
   then echo "[!] Please run as root."
@@ -37,6 +40,10 @@ if [ $TARGET_PORT != "9100" ]; then
     sed -i "s/--web.listen-address=:9100/--web.listen-address=:$TARGET_PORT/" node_exporter.service
 fi
 
+echo "[*] Preparing directory /opt/node_exporter"
+mkdir -p /opt/node_exporter
+cp ./node_exporter /opt/node_exporter
+chown -R $USER:$USER /opt/node_exporter
 
 echo '[*] Copying config'
 cp ./node_exporter.service /etc/systemd/system/
@@ -56,3 +63,10 @@ else
     exit
 fi
 
+if $POST_CLEAN; then
+    rm -f ./node_exporter.service
+    rm -f ./runner.sh
+    if $(pwd) != '/opt/node_exporter'; then:
+        rm -f ./node_exporter
+    fi
+fi
