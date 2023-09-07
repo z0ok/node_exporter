@@ -27,7 +27,6 @@ fi
 echo '[*] Checking port'
 if [ $TARGET_PORT != "9100" ]; then
     sed -i "s/--web.listen-address=:9100/--web.listen-address=:$TARGET_PORT/" node_exporter.service
-else
 fi
 
 if lsof -Pi :$TARGET_PORT -sTCP:LISTEN -t >/dev/null ; then
