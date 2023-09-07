@@ -66,7 +66,10 @@ fi
 if $POST_CLEAN; then
     rm -f ./node_exporter.service
     rm -f ./runner.sh
-    if $(pwd) != '/opt/node_exporter'; then
+    if [[ $(pwd) -ef /opt/node_exporter ]]; then
+        echo '[+] Cleaned'
+    else
         rm -f ./node_exporter
+        echo '[+] Cleaned'
     fi
 fi
