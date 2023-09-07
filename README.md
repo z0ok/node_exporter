@@ -1,13 +1,12 @@
-# RSN-node-exporter
-RSN-node-exporter
+# Node-exporter installer
+Installation pack for node-exporter. Remember, exec version may be outdated, download da fresh on from https://github.com/prometheus/node_exporter
+Tested on: Debian / Ubuntu / RHEL7/8 / Alma7/8 
 
-https://github.com/prometheus/node_exporter
+There are 2 scripts: runner.sh and simple_runner.sh. Runner.sh has few more checks and needs lsof to work. Simple one just install and doesn't care.
 
-/etc/systemd/system/node_exporter.service
+Fix settings in runners and .service file if you need.
 
-sudo useradd -rs /bin/false node_exporter
-
-# CentOS
+## Setting up firewall
 
 ```
 sudo firewall-cmd --add-port=port-number/port-type
