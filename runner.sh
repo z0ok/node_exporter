@@ -1,19 +1,22 @@
 #!/bin/bash
+
+USER="node_exporter"
+
 if [ "$EUID" -ne 0 ]
   then echo "[!] Please run as root."
   exit
 fi
 
-echo '[*] Creating user'
+echo "[*] Creating user $USER"
 
-if id 'node_exporter' &>/dev/null; then
-    echo '[+] User already exists'
+if id $USER &>/dev/null; then
+    echo "[+] User $USER already exists"
 else
-    useradd -rs /bin/false node_exporter
-    if id 'node_exporter' &>/dev/null; then
-        echo '[+] User created'
+    useradd -rs /bin/false $USER
+    if id $USER &>/dev/null; then
+        echo "[+] User $USER created"
     else
-        echo '[-] Cannot add user for some reason.'
+        echo "[-] Cannot create $USER user for some reason."
         exit
     fi
 fi
