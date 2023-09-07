@@ -25,15 +25,16 @@ else
 fi
 
 echo '[*] Checking port'
-if [ $TARGET_PORT != "9100" ]; then
-    sed -i "s/--web.listen-address=:9100/--web.listen-address=:$TARGET_PORT/" node_exporter.service
-fi
-
 if lsof -Pi :$TARGET_PORT -sTCP:LISTEN -t >/dev/null ; then
     echo "[-] $TARGET_PORT port is already used. Cannot bind there!"
+    echo '[-] Change config inside runner.sh and repeat'
     exit
 else
     echo "[+] $TARGET_PORT port is available"
+fi
+
+if [ $TARGET_PORT != "9100" ]; then
+    sed -i "s/--web.listen-address=:9100/--web.listen-address=:$TARGET_PORT/" node_exporter.service
 fi
 
 
